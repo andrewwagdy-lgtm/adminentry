@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student Affairs Specialist – Selection Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ECEFF3; --surface:#FFFFFF; --surface-2:#F5F7F9; --ink:#1C2632; --muted:#5A6675;
+  --line:#D5DBE2; --accent:#21584D; --accent-soft:#DDEBE7; --accent-ink:#FFFFFF;
+  --warn:#B1501C; --flag:#B98A1E; --flag-soft:#F6ECD3; --danger:#A3322B; --danger-soft:#F6DEDB;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12171D; --surface:#1A2129; --surface-2:#212A33; --ink:#E6EBF0; --muted:#9AA6B3;
+    --line:#323D48; --accent:#5DB3A0; --accent-soft:#1E3934; --accent-ink:#0E1A17;
+    --warn:#E58A55; --flag:#E0B54E; --flag-soft:#3A3120; --danger:#E3786F; --danger-soft:#3D2422;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12171D; --surface:#1A2129; --surface-2:#212A33; --ink:#E6EBF0; --muted:#9AA6B3;
+  --line:#323D48; --accent:#5DB3A0; --accent-soft:#1E3934; --accent-ink:#0E1A17;
+  --warn:#E58A55; --flag:#E0B54E; --flag-soft:#3A3120; --danger:#E3786F; --danger-soft:#3D2422;
+  color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hidden{display:none!important}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* Top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:16px;min-height:60px;flex-wrap:wrap}
+.bar h1{font-size:15px;font-weight:600;margin:0;flex:1;min-width:180px}
+.bar .who{color:var(--muted);font-weight:400}
+.clock{font-variant-numeric:tabular-nums;font-size:22px;font-weight:600;letter-spacing:.01em}
+.clock.low{color:var(--warn)}
+.drain{height:4px;background:var(--accent);transform-origin:left center;transition:transform 1s linear}
+.drain.low{background:var(--warn)}
+
+/* Welcome / end */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:32px;margin:40px auto;max-width:760px}
+.panel h2{font-size:28px;line-height:1.2;margin:0 0 6px;font-weight:700}
+.panel .sub{color:var(--muted);margin:0 0 24px}
+.parts{width:100%;border-collapse:collapse;margin:8px 0 24px;font-size:15px}
+.parts th,.parts td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+.parts th{font-weight:600;color:var(--muted);font-size:13px}
+.parts td.n{font-variant-numeric:tabular-nums;text-align:right}
+.rules{padding-left:20px;margin:0 0 24px}
+.rules li{margin:4px 0}
+label.field{display:block;font-weight:600;margin-bottom:6px}
+.namein{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:var(--surface-2);font-size:17px}
+.btn{border:1px solid var(--line);background:var(--surface);padding:10px 18px;border-radius:4px;font-weight:500}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.spacer{flex:1}
+.linkish{background:none;border:none;color:var(--muted);text-decoration:underline;padding:4px}
+.note{font-size:14px;color:var(--muted)}
+
+/* Test layout */
+.test{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;padding:20px 0 120px}
+.test.has-ex{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
+@media (max-width:900px){.test.has-ex{grid-template-columns:minmax(0,1fr)}}
+.exhibit{background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:20px;align-self:start;position:sticky;top:84px}
+@media (max-width:900px){.exhibit{position:static}}
+.exhibit h3{font-size:15px;margin:0 0 4px}
+.exhibit p{margin:0 0 12px;font-size:14.5px;color:var(--muted)}
+.tbl-scroll{overflow-x:auto;max-width:100%}
+.exhibit table{border-collapse:collapse;font-size:14px;width:100%;background:var(--surface);font-variant-numeric:tabular-nums}
+.exhibit th,.exhibit td{border:1px solid var(--line);padding:6px 8px;text-align:left;white-space:nowrap}
+.exhibit th{background:var(--surface-2);font-weight:600}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:15px;margin:0}
+.facts dt{color:var(--muted)}
+.facts dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:24px 26px;align-self:start}
+.qmeta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:14px;margin-bottom:10px}
+.qtext{font-size:18px;line-height:1.45;margin:0 0 6px;font-weight:500;max-width:68ch}
+.qhint{font-size:14px;color:var(--muted);margin:0 0 16px}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:5px;background:var(--surface);line-height:1.45}
+.opt:hover{border-color:var(--accent)}
+.opt .mark{flex:0 0 20px;height:20px;margin-top:1px;border:2px solid var(--muted);border-radius:50%;display:grid;place-items:center}
+.opt.multi .mark{border-radius:4px}
+.opt[aria-checked="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-checked="true"] .mark{border-color:var(--accent);background:var(--accent)}
+.opt[aria-checked="true"] .mark::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent-ink)}
+.opt.multi[aria-checked="true"] .mark::after{width:10px;height:6px;border-radius:0;background:none;border-left:2px solid var(--accent-ink);border-bottom:2px solid var(--accent-ink);transform:rotate(-45deg) translate(1px,-1px)}
+.opt .body{white-space:pre-line}
+.likert{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:16px}
+@media (max-width:560px){.likert{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.likert .opt{flex-direction:column;align-items:center;text-align:center;gap:6px;font-size:14.5px}
+
+/* Bottom nav */
+.foot{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+.foot-in{display:flex;gap:10px;align-items:center;min-height:64px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.flagbtn[aria-pressed="true"]{background:var(--flag-soft);border-color:var(--flag)}
+.mapbtn{font-variant-numeric:tabular-nums}
+
+/* Question map */
+.map{position:fixed;inset:0;background:rgba(10,15,20,.45);z-index:20;display:flex;justify-content:flex-end}
+.map-in{background:var(--surface);width:min(440px,100%);height:100%;overflow:auto;padding:calc(20px + env(safe-area-inset-top,0px)) 22px calc(20px + env(safe-area-inset-bottom,0px))}
+.map h3{margin:18px 0 8px;font-size:14px;color:var(--muted);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:6px}
+.cell{height:40px;border:1px solid var(--line);border-radius:4px;background:var(--surface);font-variant-numeric:tabular-nums;font-size:14px;position:relative}
+.cell.done{background:var(--accent-soft);border-color:var(--accent)}
+.cell.cur{outline:2px solid var(--ink);outline-offset:1px}
+.cell.flag::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:var(--flag)}
+.legend{display:flex;gap:16px;font-size:13px;color:var(--muted);margin-top:16px;flex-wrap:wrap}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-2px;border:1px solid var(--line)}
+.legend .l1::before{background:var(--accent-soft);border-color:var(--accent)}
+.legend .l2::before{background:var(--flag)}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(10,15,20,.5);display:grid;place-items:center;z-index:30;padding:20px}
+.modal-in{background:var(--surface);border-radius:6px;padding:26px;max-width:460px;width:100%;border:1px solid var(--line)}
+.modal-in h3{margin:0 0 8px;font-size:20px}
+.modal-in p{margin:0 0 18px;color:var(--muted)}
+
+@media (prefers-reduced-motion: reduce){.drain{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="bar" id="bar">
+  <div class="wrap bar-in">
+    <h1>Student Affairs Specialist selection test <span class="who" id="whoLbl"></span></h1>
+    <div class="clock hidden" id="clock" aria-live="off">60:00</div>
+  </div>
+  <div class="drain hidden" id="drain"></div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<footer class="foot hidden" id="foot">
+  <div class="wrap foot-in">
+    <button class="btn" id="prevBtn">Previous</button>
+    <button class="btn flagbtn" id="flagBtn" aria-pressed="false">Flag for review</button>
+    <button class="btn mapbtn" id="mapBtn">All questions</button>
+    <span class="spacer"></span>
+    <button class="btn primary" id="nextBtn">Next</button>
+  </div>
+</footer>
+
+<script>
+"use strict";
+/* ===== Setup: paste your Google Apps Script web app URL here ===== */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_t3kZ11Ev_cyDP2wRR1QzW02pZPPweSjb1OB7zGR8NrQYrWTrVkZLhf75HLPtiorZ/exec";
+/* ================================================================== */
+const TEST_MINUTES = 60;
+const DATA = {"SECTIONS":{"A":{"name":"Job knowledge","pace":"about 10 minutes"},"B":{"name":"Practical tasks","pace":"about 30 minutes"},"C":{"name":"Judgement","pace":"about 12 minutes"},"D":{"name":"Work style","pace":"about 6 minutes"}},"EXHIBITS":{"roster":{"title":"Class roster: Level 2, Group A","note":"Students must take the placement test, be placed in Level 2, pay tuition and be enrolled on Blackboard. University IDs have 9 digits.","head":["Row","University ID","Name","Faculty","Class","Placement","Tuition","Blackboard"],"rows":[["1","202301145","Mariam Adel","Pharmacy","Level 2 face-to-face","Level 2","Paid","Enrolled"],["2","202302287","Omar Khaled","Dentistry","Level 2 face-to-face","Level 1","Paid","Enrolled"],["3","202301876","Nour Hassan","Engineering","Level 2 face-to-face","Level 2","Unpaid","Enrolled"],["4","202303012","Youssef Samir","Pharmacy","Level 2 face-to-face","Level 2","Paid","Not enrolled"],["5","202301145","Mariam Adel","Pharmacy","Level 2 online","Level 2","Paid","Enrolled"],["6","20230457","Salma Fathy","Business","Level 2 face-to-face","Level 2","Paid","Enrolled"],["7","202302950","Karim Nabil","Engineering","Level 2 face-to-face","Not tested","Paid","Enrolled"],["8","202303344","Hana Mostafa","Dentistry","Level 2 face-to-face","Level 2","Paid","Enrolled"]]},"envelope":{"title":"Exam envelope: Group L2-A midterm","note":"You have just opened a sealed exam envelope and counted its contents.","facts":[["Students on final list","32"],["Papers issued (label)","35 (32 + 3 spare)"],["Absent (absence report)","4"],["Answered papers counted","27"],["Blank papers counted","8"]]},"sortlist":{"title":"List for the exam office","note":"The list must be sorted by university ID, lowest to highest. Approved faculty names: Faculty of Pharmacy, Faculty of Dentistry, Faculty of Engineering.","head":["University ID","Name","Faculty (as entered)"],"rows":[["202303118","Laila Ashraf","Pharma"],["202301092","Ahmed Tarek","Faculty of Dentistry"],["202302675","Rana Magdy","Eng."],["202301457","Mostafa Ali","Fac. of Pharmacy"],["202302034","Dina Sherif","Dentistry"],["202303560","Tamer Wael","Engineering"]]},"grades":{"title":"Grade sheet submitted by a teacher","note":"Coursework is out of 40, the final exam out of 60, the total out of 100. The teacher also wrote each coursework grade on the student's exam paper. Results must contain no decimals. S5 missed the midterm and sat the make-up midterm last week.","head":["Student","Coursework (sheet)","Coursework (on exam paper)","Final exam","Total"],"rows":[["S1","34","34","50","84"],["S2","28.5","28.5","45","73.5"],["S3","35","33","52","87"],["S4","30","30","41","75"],["S5","(blank)","(blank)","48","48"],["S6","38","38","55","93"]]},"excel":{"title":"Excel workbook","note":"Sheet “Roster”: university IDs in A2:A41, names in B2:B41, tuition status in C2:C41, grades in E2:E41. Sheet “Finance”: university IDs in column A, payment status in column B."}},"Q":[{"id":"q1","s":"A","t":"Which Excel function counts how many students on a roster are marked “Unpaid”?","o":["SUM","COUNTIF","COUNTA","AVERAGE"]},{"id":"q2","s":"A","t":"You select only the ID column of a student list and sort it from smallest to largest. What happens?","o":["Nothing changes","The IDs no longer match the names next to them","Excel deletes duplicate IDs","The file becomes read-only"]},{"id":"q3","s":"A","t":"A student attended 18 of 24 sessions. What is the attendance rate?","o":["66%","72%","75%","80%"]},{"id":"q4","s":"A","t":"An online session took place on Sunday. Attendance must be recorded within 3 days. What is the latest day to record it?","o":["Monday","Tuesday","Wednesday","Thursday"]},{"id":"q5","s":"A","t":"A VLOOKUP formula returns #N/A. What does this usually mean?","o":["The file is damaged","The value being looked up was not found","The column is too narrow","The result is zero"]},{"id":"q6","s":"A","t":"Which file name is best for a shared folder used by several staff?","o":["final final.xlsx","Book1.xlsx","L2_GroupA_Attendance_Fall2026_v2.xlsx","attendance new.xlsx"]},{"id":"q7","s":"A","t":"You email 40 students about a timetable change. Where should their addresses go to protect their privacy?","o":["To","CC","BCC","Subject line"]},{"id":"q8","s":"A","t":"Why are final results usually shared as PDF rather than Excel?","o":["PDF files are always smaller","PDF is harder to change and keeps the layout fixed","Excel files cannot be printed","PDF shows colours better"]},{"id":"q9","s":"A","t":"Blackboard is best described as:","o":["An accounting system","A learning management system","An email service","A database language"]},{"id":"q10","s":"A","t":"A caller says she is a student’s mother and asks for her son’s grades. What should you do?","o":["Read the grades to her","End the call","Follow the centre’s policy: do not share grades without authorisation and refer her to the proper channel","Ask the teacher to call her back with the grades"]},{"id":"q11","s":"A","t":"Which of these is a secure exam practice?","o":["Leaving exam envelopes on your desk during a break","Counting papers with a second person and signing the handover","Letting students keep the question paper","Keeping answered papers in an unlocked drawer"]},{"id":"q12","s":"A","t":"You disagree with a decision made by your team leader. What should you do?","o":["Ignore the decision","Complain about it to students","Raise it respectfully with your team leader, then follow the agreed decision","Go straight to the dean"]},{"id":"q13","s":"B","t":"Which row shows a student registered in the wrong level?","ex":"roster","o":["Row 2","Row 3","Row 7","Row 8"]},{"id":"q14","s":"B","t":"Which row has a university ID that cannot be correct?","ex":"roster","o":["Row 1","Row 4","Row 6","Row 8"]},{"id":"q15","s":"B","t":"What do rows 1 and 5 show?","ex":"roster","o":["A typing error; delete one of the rows","The same student registered in two classes; check why and report it","Two different students with the same name","No problem"]},{"id":"q16","s":"B","t":"Which of these can you do yourself, without needing a decision from anyone?","ex":"roster","h":"Select all that apply.","multi":true,"o":["Mark Row 3 clearly as unpaid on the roster","Mark Row 4 as not yet enrolled on Blackboard","Move the student in Row 2 to a Level 1 class","Remove the student in Row 7 from the roster","Delete Row 5"]},{"id":"q17","s":"B","t":"How many answered papers should be in the envelope?","ex":"envelope","o":["27","28","29","32"]},{"id":"q18","s":"B","t":"How many blank papers should be in the envelope?","ex":"envelope","o":["3","4","7","8"]},{"id":"q19","s":"B","t":"What does your count show?","ex":"envelope","o":["Everything matches","One paper is missing from the envelope","The total matches, but one student marked present has no answered paper","Three spare papers have been lost"]},{"id":"q20","s":"B","t":"What should you do first?","ex":"envelope","o":["Move one blank paper into the answered pile so the numbers match","Change the absence report to 5 absences","Recount with a colleague, check the blank papers for names and the signed attendance sheet, and report before going further","Carry on and mention it later"]},{"id":"q21","s":"B","t":"After sorting by university ID from lowest to highest, which student is third?","ex":"sortlist","o":["Mostafa Ali","Dina Sherif","Rana Magdy","Laila Ashraf"]},{"id":"q22","s":"B","t":"Whose faculty name must be changed to match the approved names?","ex":"sortlist","h":"Select all that apply.","multi":true,"o":["Laila Ashraf","Ahmed Tarek","Rana Magdy","Mostafa Ali","Dina Sherif","Tamer Wael"]},{"id":"q23","s":"B","t":"Which student’s total is added up wrongly?","ex":"grades","o":["S1","S3","S4","S6"]},{"id":"q24","s":"B","t":"Which student’s coursework grade does not match the grade on the exam paper?","ex":"grades","o":["S2","S3","S4","S5"]},{"id":"q25","s":"B","t":"Which student’s result breaks the no-decimals rule?","ex":"grades","o":["S1","S2","S4","S6"]},{"id":"q26","s":"B","t":"What should happen with S5’s missing coursework grade?","ex":"grades","o":["Enter 0 so the sheet is complete","Leave it blank; the final exam is enough","Ask the teacher for the make-up midterm grade and record the gap in the tracking log","Estimate it from S5’s final exam score"]},{"id":"q27","s":"B","t":"What is the best way to deal with this grade sheet overall?","ex":"grades","o":["Correct the errors yourself and send it on","Record each problem in the tracking log and send the teacher a written request to correct them by a deadline","Return it to the teacher saying it is full of mistakes","Send it to the exam office as it is"]},{"id":"q28","s":"B","t":"Which formula in D2 brings each student’s payment status from “Finance” into the roster?","ex":"excel","o":["=VLOOKUP(A2,Finance!A:B,2,FALSE)","=VLOOKUP(A2,Finance!B:A,1,TRUE)","=SUMIF(Finance!A:A,A2)","=MATCH(A2,Finance!A:A,0)"]},{"id":"q29","s":"B","t":"Which formula shows TRUE when the ID in A2 appears more than once?","ex":"excel","o":["=COUNT(A2:A41)>1","=COUNTIF($A$2:$A$41,A2)>1","=IF(A2=A3,\"Duplicate\")","=COUNTA($A$2:$A$41)>1"]},{"id":"q30","s":"B","t":"Which formula rounds the grade in E2 to the nearest whole number?","ex":"excel","o":["=INT(E2)","=TRUNC(E2)","=ROUND(E2,0)","=ROUNDUP(E2,1)"]},{"id":"q31","s":"B","t":"You are emailing your team leader about the envelope. Which subject line is best?","ex":"envelope","o":["Problem","URGENT!!!","Exam envelope count mismatch – Group L2-A midterm","Fwd: envelope"]},{"id":"q32","s":"B","t":"Which email to your team leader is best?","ex":"envelope","o":["Hi, there is a problem with the papers for the group, the numbers are wrong. Please tell me what to do.","Dear Team Leader,\nThe Group L2-A midterm envelope does not match. With 32 students and 4 absences, I expected 28 answered and 7 blank papers. I counted 27 answered and 8 blank (35 in total). I recounted with a colleague and have not changed any records. Should I check the attendance sheet, or refer this to the Head of Control?\nBest regards","URGENT!!! Someone has lost an exam paper in L2-A. This is unacceptable and must be investigated immediately.","Dear Team Leader,\nI found a small issue with an envelope, but I fixed it by moving one paper so the numbers now match.\nRegards"]},{"id":"q33","s":"C","t":"A teacher asks you to email her another teacher’s class grades “just to compare”. What is the most effective response?","o":["Send them; teachers are colleagues","Politely explain that you can only share grades with authorised staff, and suggest she ask management","Ignore the request","Ask the other teacher if it is okay, then send them"]},{"id":"q34","s":"C","t":"A student at the counter is angry because his name is not on the roster. He says he has paid. Five students are waiting behind him. What is the most effective response?","o":["Tell him to come back tomorrow","Add his name to the roster now so he calms down","Stay calm, note his ID and payment details, check quickly; if it needs more time, tell him when you will follow up and serve the next student","Call security"]},{"id":"q35","s":"C","t":"Attendance for six classes must be recorded today. At 1 pm a manager gives you an urgent task due by 3 pm. You cannot finish both. What is the most effective response?","o":["Tell the manager about the attendance deadline and ask which should come first","Do the attendance and leave the manager’s task","Do the manager’s task and let the attendance be late without telling anyone","Do half of each"]},{"id":"q36","s":"C","t":"A friend who studies at the centre messages you asking for her exam result before results are officially released. What is the most effective response?","o":["Tell her privately; she will find out soon anyway","Give her a hint, such as “you did fine”","Stop replying to her messages","Kindly explain that you cannot share results before the official release"]},{"id":"q37","s":"C","t":"You notice a mistake in a results file you uploaded to the shared folder yesterday. What is the most effective response?","o":["Quietly replace the file and say nothing","Report it to your team leader straight away, with details, and correct it as instructed","Leave it; it was already uploaded","Fix it and mention it at next week’s meeting"]},{"id":"q38","s":"C","t":"It is 3:55 pm and your shift ends at 4 pm. The rosters need one more hour. A colleague says, “Just stay and claim overtime.” What is the most effective response?","o":["Stay and record the extra hour","Leave without telling anyone; the rosters can wait","Ask your team leader for approval to stay; if not approved, note where you stopped and finish first thing tomorrow","Take the files home to finish them"]},{"id":"q39","s":"C","t":"A colleague often leaves the desk for long periods, and you end up covering his work. What is the most effective response?","o":["Report him to management immediately","Complain about him to other colleagues","Keep covering and say nothing","Speak to him privately and politely; if it continues, raise it with your team leader"]},{"id":"q40","s":"C","t":"A teacher is late submitting a grade sheet for the third time. The exam office needs it tomorrow. What is the most effective response?","o":["Send a polite written reminder with the deadline, inform your team leader, and record the delay in the tracking log","Fill in estimated grades yourself to meet the deadline","Tell the students their teacher is late","Wait until the teacher sends it"]},{"id":"q41","s":"D","t":"I double-check my work even when I am sure it is correct.","lk":true},{"id":"q42","s":"D","t":"If a rule slows my work down, it is fine to skip it now and then.","lk":true},{"id":"q43","s":"D","t":"When instructions are unclear, I would rather ask than guess.","lk":true},{"id":"q44","s":"D","t":"Sharing a little information with a friend is acceptable if no one is harmed.","lk":true},{"id":"q45","s":"D","t":"I am comfortable doing the same careful task many times in a day.","lk":true},{"id":"q46","s":"D","t":"When I make a mistake, it is best to fix it quietly before anyone notices.","lk":true},{"id":"q47","s":"D","t":"I keep my supervisor informed even when things are going well.","lk":true},{"id":"q48","s":"D","t":"Working beyond my hours shows commitment, even without approval.","lk":true},{"id":"q49","s":"D","t":"I stay polite with people who are rude to me at work.","lk":true},{"id":"q50","s":"D","t":"Following up on other people’s deadlines is not my responsibility.","lk":true},{"id":"q51","s":"D","t":"I prefer clear procedures and follow them closely.","lk":true},{"id":"q52","s":"D","t":"I am happy to help a colleague who has fallen behind.","lk":true}]};
+const SECTIONS = DATA.SECTIONS, EXHIBITS = DATA.EXHIBITS, Q = DATA.Q;
+const AG = ["Strongly disagree","Disagree","Agree","Strongly agree"];
+Q.forEach((q,i)=>{ q.n=i+1; if(q.lk) q.o=AG; });
+
+const LS_PROGRESS="elc_sas_progress", LS_OUTBOX="elc_sas_outbox";
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+function lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
+
+const app=document.getElementById("app");
+const clockEl=document.getElementById("clock"), drainEl=document.getElementById("drain");
+const foot=document.getElementById("foot"), whoLbl=document.getElementById("whoLbl");
+let S=null, tick=null;
+const configured = /^https:\/\/script\.google\.com\//.test(SCRIPT_URL);
+
+function esc(s){ const d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+function fmt(sec){ sec=Math.max(0,Math.round(sec)); return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0"); }
+function save(){ if(S) lsSet(LS_PROGRESS,S); }
+
+/* ---------- sending ---------- */
+async function sendOne(rec){
+  const res = await fetch(SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(rec)});
+  const j = await res.json();
+  if(!j.ok) throw new Error(j.error||"not accepted");
+}
+async function flushOutbox(){
+  if(!configured) return 0;
+  let box=lsGet(LS_OUTBOX,[]); const left=[];
+  for(const rec of box){ try{ await sendOne(rec); }catch(e){ left.push(rec); } }
+  lsSet(LS_OUTBOX,left); return left.length;
+}
+
+/* ---------- welcome ---------- */
+function showWelcome(){
+  stopClock(); foot.classList.add("hidden"); whoLbl.textContent="";
+  const cnt={A:0,B:0,C:0,D:0}; Q.forEach(q=>cnt[q.s]++);
+  const pending=lsGet(LS_OUTBOX,[]).length;
+  app.innerHTML=`
+  <section class="panel">
+    <h2>Welcome</h2>
+    <p class="sub">This test shows how you handle the everyday work of a student services office: accuracy with data, judgement and professional conduct. No previous knowledge of our centre is needed.</p>
+    ${configured?"":`<p class="note" style="color:var(--danger)">Setup needed: the results address has not been added to this page yet, so answers cannot be sent.</p>`}
+    ${pending?`<p class="note" style="color:var(--warn)">${pending} finished test${pending>1?"s have":" has"} not reached the results sheet yet. <button class="linkish" id="retryW">Send now</button></p>`:""}
+    <table class="parts">
+      <thead><tr><th>Part</th><th>What it covers</th><th class="n">Questions</th><th>Suggested time</th></tr></thead>
+      <tbody>
+        <tr><td>${SECTIONS.A.name}</td><td>Office, data and exam-handling basics</td><td class="n">${cnt.A}</td><td>${SECTIONS.A.pace}</td></tr>
+        <tr><td>${SECTIONS.B.name}</td><td>Checking rosters, exam papers, grade sheets, Excel and email</td><td class="n">${cnt.B}</td><td>${SECTIONS.B.pace}</td></tr>
+        <tr><td>${SECTIONS.C.name}</td><td>Choosing the most effective response to work situations</td><td class="n">${cnt.C}</td><td>${SECTIONS.C.pace}</td></tr>
+        <tr><td>${SECTIONS.D.name}</td><td>How far you agree with statements about work</td><td class="n">${cnt.D}</td><td>${SECTIONS.D.pace}</td></tr>
+      </tbody>
+    </table>
+    <ul class="rules">
+      <li>You have <strong>${TEST_MINUTES} minutes</strong>. The test submits itself when time runs out.</li>
+      <li>Every question is answered by clicking. You can go back, change answers and flag questions to review.</li>
+      <li>Unanswered questions score zero, so answer every one.</li>
+      <li>A calculator is allowed. Phones and internet searches are not.</li>
+      <li>All names, ID numbers and data are invented.</li>
+    </ul>
+    <label class="field" for="nm">Your full name</label>
+    <input class="namein" id="nm" autocomplete="off" maxlength="80">
+    <div class="row" style="margin-top:20px">
+      <button class="btn primary" id="startBtn" disabled>Start the test</button>
+    </div>
+  </section>`;
+  const nm=document.getElementById("nm"), sb=document.getElementById("startBtn");
+  nm.addEventListener("input",()=>{ sb.disabled = nm.value.trim().length<3; });
+  nm.addEventListener("keydown",e=>{ if(e.key==="Enter" && !sb.disabled) start(nm.value.trim()); });
+  sb.onclick=()=>start(nm.value.trim());
+  const rw=document.getElementById("retryW"); if(rw) rw.onclick=async()=>{ rw.disabled=true; await flushOutbox(); showWelcome(); };
+  nm.focus();
+}
+function start(name){
+  const now=Date.now();
+  S={name, startedAt:now, endAt:now+TEST_MINUTES*60000, cur:0, answers:{}, flags:{}, id:"r"+now.toString(36)+Math.random().toString(36).slice(2,8)};
+  save(); runTest();
+}
+
+/* ---------- clock ---------- */
+function startClock(){
+  stopClock(); clockEl.classList.remove("hidden"); drainEl.classList.remove("hidden");
+  const upd=()=>{
+    const left=(S.endAt-Date.now())/1000;
+    clockEl.textContent=fmt(left);
+    const low=left<=300; clockEl.classList.toggle("low",low); drainEl.classList.toggle("low",low);
+    drainEl.style.transform="scaleX("+Math.max(0,left/(TEST_MINUTES*60))+")";
+    if(left<=0) submit(true);
+  };
+  upd(); tick=setInterval(upd,1000);
+}
+function stopClock(){ if(tick) clearInterval(tick); tick=null; clockEl.classList.add("hidden"); drainEl.classList.add("hidden"); }
+
+/* ---------- test ---------- */
+function runTest(){ whoLbl.textContent="\u2013 "+S.name; foot.classList.remove("hidden"); startClock(); renderQ(); }
+function exhibitHTML(key){
+  const e=EXHIBITS[key]; if(!e) return "";
+  let body="";
+  if(e.rows) body=`<div class="tbl-scroll"><table><thead><tr>${e.head.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${e.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  else if(e.facts) body=`<dl class="facts">${e.facts.map(f=>`<dt>${esc(f[0])}</dt><dd>${esc(f[1])}</dd>`).join("")}</dl>`;
+  return `<aside class="exhibit" aria-label="Information for this question"><h3>${esc(e.title)}</h3><p>${esc(e.note)}</p>${body}</aside>`;
+}
+function renderQ(){
+  const q=Q[S.cur], a=S.answers[q.id];
+  const secQs=Q.filter(x=>x.s===q.s), pos=secQs.indexOf(q)+1;
+  const hint = q.h || (q.s==="C" ? "Choose the most effective response." : q.lk ? "Choose how far you agree." : "Choose one answer.");
+  const isSel=i=> q.multi ? (Array.isArray(a)&&a.includes(i)) : a===i;
+  const optsHTML=q.o.map((o,i)=>`<button type="button" class="opt${q.multi?" multi":""}" role="${q.multi?"checkbox":"radio"}" aria-checked="${isSel(i)}" data-i="${i}"><span class="mark" aria-hidden="true"></span><span class="body">${esc(o)}</span></button>`).join("");
+  app.innerHTML=`
+  <div class="test${q.ex?" has-ex":""}">
+    ${q.ex?exhibitHTML(q.ex):""}
+    <section class="qcard">
+      <div class="qmeta"><span>${SECTIONS[q.s].name}, question ${pos} of ${secQs.length}</span><span>${q.n} / ${Q.length}</span></div>
+      <p class="qtext">${esc(q.t)}</p>
+      <p class="qhint">${hint}</p>
+      <div class="${q.lk?"likert":"opts"}" role="${q.multi?"group":"radiogroup"}">${optsHTML}</div>
+    </section>
+  </div>`;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i;
+    if(q.multi){ let arr=Array.isArray(S.answers[q.id])?S.answers[q.id].slice():[]; arr=arr.includes(i)?arr.filter(x=>x!==i):arr.concat(i).sort(); S.answers[q.id]=arr; }
+    else S.answers[q.id]=i;
+    save(); renderQ();
+  });
+  document.getElementById("prevBtn").disabled = S.cur===0;
+  document.getElementById("nextBtn").textContent = S.cur===Q.length-1 ? "Finish" : "Next";
+  const fb=document.getElementById("flagBtn"); fb.setAttribute("aria-pressed", !!S.flags[q.id]);
+  fb.textContent = S.flags[q.id] ? "Flagged" : "Flag for review";
+  document.getElementById("mapBtn").textContent = "All questions (" + answeredCount() + "/" + Q.length + ")";
+}
+function answeredCount(){ return Q.filter(q=>{const a=S.answers[q.id]; return a!==undefined && !(Array.isArray(a)&&!a.length);}).length; }
+document.getElementById("prevBtn").onclick=()=>{ if(S.cur>0){S.cur--; save(); renderQ(); window.scrollTo(0,0);} };
+document.getElementById("nextBtn").onclick=()=>{ if(S.cur<Q.length-1){S.cur++; save(); renderQ(); window.scrollTo(0,0);} else confirmFinish(); };
+document.getElementById("flagBtn").onclick=()=>{ const id=Q[S.cur].id; S.flags[id]=!S.flags[id]; save(); renderQ(); };
+document.getElementById("mapBtn").onclick=()=>openMap();
+
+function openMap(){
+  const m=document.createElement("div"); m.className="map";
+  let html=`<div class="map-in" role="dialog" aria-label="All questions"><div class="row"><strong>All questions</strong><span class="spacer"></span><button class="btn" id="mapClose">Close</button></div>`;
+  ["A","B","C","D"].forEach(s=>{
+    html+=`<h3>${SECTIONS[s].name}</h3><div class="grid">`;
+    Q.forEach((q,i)=>{ if(q.s!==s) return; const a=S.answers[q.id]; const done=a!==undefined&&!(Array.isArray(a)&&!a.length);
+      html+=`<button class="cell${done?" done":""}${S.flags[q.id]?" flag":""}${i===S.cur?" cur":""}" data-i="${i}" aria-label="Question ${q.n}${done?", answered":""}${S.flags[q.id]?", flagged":""}">${q.n}</button>`; });
+    html+=`</div>`;
+  });
+  html+=`<div class="legend"><span class="l1">Answered</span><span class="l2">Flagged</span></div><div class="row" style="margin-top:22px"><button class="btn primary" id="mapFinish">Finish the test</button></div></div>`;
+  m.innerHTML=html; document.body.appendChild(m);
+  const close=()=>m.remove();
+  m.addEventListener("click",e=>{ if(e.target===m) close(); });
+  m.querySelector("#mapClose").onclick=close;
+  m.querySelector("#mapFinish").onclick=()=>{ close(); confirmFinish(); };
+  m.querySelectorAll(".cell").forEach(c=>c.onclick=()=>{ S.cur=+c.dataset.i; save(); close(); renderQ(); window.scrollTo(0,0); });
+}
+function modal(title,text,okLabel,onOk,cancelLabel){
+  const m=document.createElement("div"); m.className="modal";
+  m.innerHTML=`<div class="modal-in" role="dialog" aria-modal="true"><h3>${esc(title)}</h3><p>${esc(text)}</p><div class="row"><span class="spacer"></span>${cancelLabel?`<button class="btn" id="mc">${esc(cancelLabel)}</button>`:""}<button class="btn primary" id="mo">${esc(okLabel)}</button></div></div>`;
+  document.body.appendChild(m);
+  const c=m.querySelector("#mc"); if(c) c.onclick=()=>m.remove();
+  m.querySelector("#mo").onclick=()=>{ m.remove(); onOk(); };
+  m.querySelector("#mo").focus();
+}
+function confirmFinish(){
+  const un=Q.length-answeredCount(), fl=Object.values(S.flags).filter(Boolean).length;
+  let txt = un ? `You have ${un} unanswered question${un>1?"s":""}. ` : "You have answered every question. ";
+  if(fl) txt += `${fl} question${fl>1?"s are":" is"} flagged for review. `;
+  txt += "Once you submit, you cannot change your answers.";
+  modal("Submit your test?", txt, "Submit test", ()=>submit(false), "Keep working");
+}
+
+let submitting=false;
+async function submit(timedOut){
+  if(submitting||!S) return; submitting=true;
+  stopClock(); foot.classList.add("hidden");
+  document.querySelectorAll(".map,.modal").forEach(x=>x.remove());
+  const rec={id:S.id, name:S.name, startedAt:S.startedAt, submittedAt:Math.min(Date.now(),S.endAt), timedOut:!!timedOut, answers:S.answers};
+  const box=lsGet(LS_OUTBOX,[]); box.push(rec); lsSet(LS_OUTBOX,box);
+  lsDel(LS_PROGRESS);
+  const name=S.name; S=null; whoLbl.textContent="";
+  app.innerHTML=`<section class="panel"><h2>${timedOut?"Time is up":"Test submitted"}</h2><p class="sub">Thank you, ${esc(name)}. Please tell the examiner you have finished.</p><p class="note" id="saveNote">Sending your answers\u2026</p><div class="row" style="margin-top:20px"><button class="btn hidden" id="retryBtn">Try sending again</button><span class="spacer"></span><button class="btn" id="nextCand">Next candidate</button></div></section>`;
+  const note=document.getElementById("saveNote"), rb=document.getElementById("retryBtn");
+  const attempt=async()=>{
+    note.textContent="Sending your answers\u2026"; rb.classList.add("hidden");
+    const left=await flushOutbox();
+    if(!configured){ note.textContent="Answers are kept on this computer. The results address has not been set up yet."; }
+    else if(left){ note.textContent="Your answers are saved on this computer but could not be sent. Check the internet connection and try again."; rb.classList.remove("hidden"); }
+    else note.textContent="Your answers have been sent.";
+  };
+  rb.onclick=attempt;
+  document.getElementById("nextCand").onclick=showWelcome;
+  await attempt();
+  submitting=false;
+}
+
+/* ---------- boot ---------- */
+(function boot(){
+  flushOutbox();
+  const p=lsGet(LS_PROGRESS,null);
+  if(p && p.endAt){ S=p; if(Date.now()>=S.endAt){ submit(true); return; } runTest(); return; }
+  showWelcome();
+})();
+
+</script>
+</body>
+</html>
